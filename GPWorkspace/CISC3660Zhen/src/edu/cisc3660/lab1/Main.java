@@ -5,6 +5,10 @@ public class Main {
 		// Test
 		Deck deck = new Deck();
 		System.out.println(deck.toString());
+		
+		
+		
+		
 	}
 
 }
