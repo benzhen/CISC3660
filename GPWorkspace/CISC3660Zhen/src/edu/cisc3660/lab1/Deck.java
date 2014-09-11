@@ -3,6 +3,7 @@ package edu.cisc3660.lab1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Deck {
 	// You could use a LinkedList instead of an ArrayList.
@@ -55,6 +56,50 @@ public class Deck {
 			s = s + c.getSuit().toString() + " " + c.getRank().toString() + "\n";
 		}
 		return s;
+	}
+	
+	public ArrayList<Card> getOrderedCards(){
+		deck.clear();
+		
+		for(Rank r: Rank.values()){
+			for(Suit s: Suit.values()){
+				deck.add(new Card(s,r));
+			}
+		}
+		
+		return deck;
+	}
+	
+	public int getNumberOfCardsRemaining(){
+		return deck.size();
+	}
+	
+	public Card dealCard(){
+		Random rand = new Random();
+		int n = rand.nextInt(deck.size());
+		
+		Card deal = new Card(deck.get(n).getSuit(), deck.get(n).getRank());
+		removeCardDeck(n);
+		addOneCard(deal);
+		
+		return deal;
+	}
+	
+	public void shuffle(){
+		Random rand = new Random();
+		
+		int n, numShuffle = rand.nextInt(80) + 30;
+		
+		
+		
+		for(int i=0; i<numShuffle; i++){
+			n = rand.nextInt(deck.size());
+			
+			Card deal = new Card(deck.get(n).getSuit(), deck.get(n).getRank());
+			removeCardDeck(n);
+			addOneCard(deal);
+		}
+		
 	}
 
 }
