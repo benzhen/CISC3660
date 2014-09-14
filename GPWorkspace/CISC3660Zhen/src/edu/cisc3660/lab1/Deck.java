@@ -9,6 +9,7 @@ public class Deck {
 	// You could use a LinkedList instead of an ArrayList.
 	// It depends on the operations that you want to perform on the list
 	private ArrayList<Card> deck = new ArrayList<Card>();
+	private ArrayList<Card> deck2 = new ArrayList<Card>();
 	
 	public Deck(){
 		for(Rank r: Rank.values()){
@@ -59,15 +60,15 @@ public class Deck {
 	}
 	
 	public ArrayList<Card> getOrderedCards(){
-		deck.clear();
+		deck2.clear();
 		
 		for(Rank r: Rank.values()){
 			for(Suit s: Suit.values()){
-				deck.add(new Card(s,r));
+				deck2.add(new Card(s,r));
 			}
 		}
 		
-		return deck;
+		return deck2;
 	}
 	
 	public int getNumberOfCardsRemaining(){
