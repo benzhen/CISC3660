@@ -7,12 +7,14 @@ public class Main {
 		ArrayList<Card> one = new ArrayList<Card>();
 		ArrayList<Card> two = new ArrayList<Card>();
 		int counter1 = 0, counter2 = 0;
+		//String s = "", q = "";
 		
 		// Test
 		Deck deck = new Deck();
+		int deckHalf = deck.getNumberOfCardsRemaining()/2;
 		deck.shuffle();
 		
-		for(int i=0; i<26; i++){
+		for(int i=0; i<deckHalf; i++){
 			one.add(deck.dealCard());
 			two.add(deck.dealCard());
 		}

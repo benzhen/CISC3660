@@ -9,7 +9,7 @@ public class Deck {
 	// You could use a LinkedList instead of an ArrayList.
 	// It depends on the operations that you want to perform on the list
 	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Card> deck2 = new ArrayList<Card>();
+	private ArrayList<Card> returnDeck = new ArrayList<Card>();
 	
 	public Deck(){
 		for(Rank r: Rank.values()){
@@ -60,15 +60,118 @@ public class Deck {
 	}
 	
 	public ArrayList<Card> getOrderedCards(){
-		deck2.clear();
+		returnDeck.clear();
 		
-		for(Rank r: Rank.values()){
-			for(Suit s: Suit.values()){
-				deck2.add(new Card(s,r));
+		for(int i=0;i<13;i++){
+			switch(i){
+				case 0:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 1:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 2:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 3:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 4:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 5:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 6:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 7:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 8:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 9:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 10:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 11:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
+				case 12:{
+					for(Card c: deck){
+						if(c.getRank().ordinal() == i){
+							returnDeck.add(c);
+						}
+					}
+					break;
+				}
 			}
 		}
 		
-		return deck2;
+		return returnDeck;
 	}
 	
 	public int getNumberOfCardsRemaining(){
@@ -81,7 +184,6 @@ public class Deck {
 		
 		Card deal = new Card(deck.get(n).getSuit(), deck.get(n).getRank());
 		removeCardDeck(n);
-		addOneCard(deal);
 		
 		return deal;
 	}
