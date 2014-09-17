@@ -12,11 +12,21 @@ public class Deck {
 	private ArrayList<Card> returnDeck = new ArrayList<Card>();
 	
 	public Deck(){
+		
+	}
+	
+	public void initFullDeck(){
+		deck.removeAll(deck);
+		
 		for(Rank r: Rank.values()){
 			for(Suit s: Suit.values()){
 				deck.add(new Card(s,r));
 			}
 		}
+	}
+	
+	public void initEmptyDeck(){
+		deck.removeAll(deck);
 	}
 	
 	public List<Card> getDeck(){
