@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String [] args){
+		lab1();
+	}
+	
+	public static void lab1(){
 		ArrayList<Card> one = new ArrayList<Card>();
 		ArrayList<Card> two = new ArrayList<Card>();
 		int counter1 = 0, counter2 = 0;
@@ -39,6 +43,12 @@ public class Main {
 		else{
 			System.out.println("No Winner, it's a Tie!!!");
 		}
+	}
+	
+	public static void testLab1(){
+		//Test
+		Deck deck = new Deck();
+		System.out.println(deck.toString());
 	}
 
 }
