@@ -1,4 +1,4 @@
-package edu.cisc3660.lab1;
+package edu.zhen.lab1;
 
 import java.util.ArrayList;
 
