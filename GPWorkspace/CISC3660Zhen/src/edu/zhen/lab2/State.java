@@ -1,6 +1,6 @@
 package edu.zhen.lab2;
 
-import edu.zhen.lab1.Deck;;
+import edu.zhen.lab1.Deck;
 
 public class State {
 	private byte turn; // 1 - 2 - 3
@@ -20,7 +20,7 @@ public class State {
 		players[0] = new Player();
 		players[0].receiveCard(deck.dealCard());
 		//Give 2 cards to each player
-		for(int i=1; i<3; i++){
+		for(int i=1; i<4; i++){
 			players[i] = new Player();
 			players[i].receiveCard(deck.dealCard());
 			players[i].receiveCard(deck.dealCard());

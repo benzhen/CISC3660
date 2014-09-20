@@ -15,6 +15,7 @@ public class Main {
 		
 		// Test
 		Deck deck = new Deck();
+		deck.initFullDeck();
 		int deckHalf = deck.getNumberOfCardsRemaining()/2;
 		deck.shuffle();
 		
@@ -24,11 +25,11 @@ public class Main {
 		}
 		
 		for(Card c:one){
-			counter1 += c.getRank().ordinal();
+			counter1 += c.getRank().ordinal() +1;
 		}
 		
 		for(Card c:two){
-			counter2 += c.getRank().ordinal();
+			counter2 += c.getRank().ordinal() +1;
 		}
 		
 		System.out.println("Total of Array One: " + counter1

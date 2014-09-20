@@ -10,9 +10,10 @@ public class MessagePanel extends JPanel {
 	boolean showMenu;
 	
 	public MessagePanel(){
-		message = new String[3];
+		message = new String[4];
 		message[1] = Constants.WAIT_MSG;
 		message[2] = Constants.WAIT_MSG;
+		message[3] = "";
 	}
 	
 	public void outputMessage(int player, String msg){
@@ -35,12 +36,14 @@ public class MessagePanel extends JPanel {
 	private void draw(Graphics g){
 		Graphics2D g2d = (Graphics2D)g;
 		if(sendMessage){
-			g2d.drawString("Message to player 1: ", 10, 15);
-			g2d.drawString("Message to player 2: ", 10, 20);
-			g2d.drawString("Message to player 3: ", 10, 160);
+			g2d.drawString("Message to player 1: 'q'= Hit, 'w'= Stand", 10, 15);
+			g2d.drawString("Message to player 2: 'a'= Hit, 's'= Stand", 10, 90);
+			g2d.drawString("Message to player 3: 'z'= Hit, 'x'= Stand", 10, 160);
+			g2d.drawString("", 10, 250);
 			g2d.drawString(message[0], 10, 35);
 			g2d.drawString(message[1], 10, 110);
 			g2d.drawString(message[2], 10, 180);
+			g2d.drawString(message[3], 10, 250);
 		}
 		else if(showMenu){
 			g2d.drawString("Welcome to this extremely sophisticated version of Blackjack!", 55, 45);

@@ -9,6 +9,8 @@ public class Card {
 		this.rank = rank;
 	}
 	
+	public Card(){}
+
 	public Suit getSuit(){
 		return suit;
 	}
@@ -49,6 +51,11 @@ public class Card {
 		}
 		
 		return false;
+	}
+	
+	public void overrideCard(Card c){
+		this.suit = c.getSuit();
+		this.rank = c.getRank();
 	}
 
 }
