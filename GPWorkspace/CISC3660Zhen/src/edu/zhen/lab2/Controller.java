@@ -76,6 +76,24 @@ public class Controller {
 			System.out.println(state.getDeck().getNumberOfCardsRemaining());
 		}
 		
+		if(state.getTurn() == 1 && state.getPlayer(1).getTotal() > 21){
+			playerOneState();
+			playerTwoTurn();
+			msg.repaint();
+			state.nextTurn();
+		}
+		if(state.getTurn() == 2 && state.getPlayer(2).getTotal() > 21){
+			playerTwoState();
+			playerThreeTurn();
+			msg.repaint();
+			state.nextTurn();
+		}
+		if(state.getTurn() == 3 && state.getPlayer(3).getTotal() > 21){
+			playerThreeTurn();
+			state.nextTurn();
+			dealerRun();
+		}
+		
 		if(c == 'q' || c == 'w' || c == 'a' || c == 's' || c == 'z' || c == 'x'){
 			if(c == 'q' && state.getTurn() == 1){
 				deal.add(state.getDeck().dealCard());
@@ -87,13 +105,7 @@ public class Controller {
 			else if(c == 'w' && state.getTurn() == 1){
 				state.nextTurn();
 				//state.getPlayer(1).setTotal(10);
-				if(state.getPlayer(1).getTotal() <= 21){
-					highest = state.getPlayer(1).getTotal();
-				}
-				playerOutcome1 = Constants.WON;
-				if(state.getPlayer(1).getTotal() == 21){
-					playerOutcome1 = Constants.BLACKJACK;
-				}
+				playerOneState();
 				playerTwoTurn();
 			}
 			else if(c == 'a' && state.getTurn() == 2){
@@ -107,23 +119,7 @@ public class Controller {
 			else if(c == 's' && state.getTurn() == 2){
 				state.nextTurn();
 				//state.getPlayer(2).setTotal(21);
-				if(state.getPlayer(2).getTotal() > highest && highest != 21 && state.getPlayer(2).getTotal() < 21){
-					highest = state.getPlayer(2).getTotal();
-					playerOutcome1 = Constants.LOST;
-					playerOutcome2 = Constants.WON;
-				}
-				else{
-					playerOutcome2 = Constants.LOST;
-				}
-				if(state.getPlayer(2).getTotal() == 21 && state.getPlayer(1).getTotal() != 21){
-					playerOutcome1 = Constants.LOST;
-					playerOutcome2 = Constants.BLACKJACK;
-					highest = 21;
-				}
-				else if(state.getPlayer(2).getTotal() == 21){
-					playerOutcome2 = Constants.BLACKJACK;
-					highest = 21;
-				}
+				playerTwoState();
 				playerThreeTurn();
 			}
 			else if(c == 'z' && state.getTurn() == 3){
@@ -136,64 +132,17 @@ public class Controller {
 			else if(c == 'x' && state.getTurn() == 3){
 				state.nextTurn();
 				//state.getPlayer(3).setTotal(20);
-				if(state.getPlayer(3).getTotal() > highest && highest != 21 && state.getPlayer(3).getTotal() < 21){
-					highest = state.getPlayer(3).getTotal();
-					playerOutcome1 = Constants.LOST;
-					playerOutcome2 = Constants.LOST;
-					playerOutcome3 = Constants.WON;
-				}
-				else{
-					playerOutcome3 = Constants.LOST;
-				}
-				
-				if(state.getPlayer(3).getTotal() == 21 && state.getPlayer(2).getTotal() != 21){
-					
-					playerOutcome2 = Constants.LOST;
-					playerOutcome3 = Constants.BLACKJACK;
-					highest = 21;
-				}
-				else if(state.getPlayer(3).getTotal() == 21){
-					playerOutcome3 = Constants.BLACKJACK;
-					highest = 21;
-				}
-				
-				while(state.getDealer().getTotal() <= highest && state.getDealer().getTotal() < 21){
-					deal.add(state.getDeck().dealCard());
-					state.getDealer().receiveCard(deal.get(count));
-					addCard(0, deal.get(count));
-					count++;
-				}
-				
+				playerThreeState();
+				dealerRun();
 				//state.getDealer().setTotal(12);
-				
-				if(state.getDealer().getTotal() < 21 && state.getDealer().getTotal() > highest){
-					playerOutcome1 = Constants.LOST;
-					playerOutcome2 = Constants.LOST;
-					playerOutcome3 = Constants.LOST;
-					dealerOutcome = Constants.WON;
-				}
-				else if(state.getDealer().getTotal() == 21 && highest != 21){
-					playerOutcome1 = Constants.LOST;
-					playerOutcome2 = Constants.LOST;
-					playerOutcome3 = Constants.LOST;
-					dealerOutcome = Constants.BLACKJACK;
-				}
-				else if(state.getDealer().getTotal() == 21){
-					dealerOutcome = Constants.BLACKJACK;
-				}
-				else{
-					dealerOutcome = Constants.LOST;
-				}
-				
-				dealerTurn(playerOutcome1, playerOutcome2, playerOutcome3, dealerOutcome);
 			}
 			else{
 				showErrorMsgPlayerKey(c);
 			}
 		}
 		
-		
 	}
+	
 
 	public void totalHand(int player){
 		for(Card c: state.getPlayer(player).getHand()){
@@ -302,5 +251,88 @@ public class Controller {
 				+ state.getPlayer(0).getTotal()
 				+ " Results: " + dealer
 				+ "     " + "Press 'p' to play again!");
+	}
+	
+	public void playerOneState(){
+		if(state.getPlayer(1).getTotal() <= 21){
+			highest = state.getPlayer(1).getTotal();
+		}
+		playerOutcome1 = Constants.WON;
+		if(state.getPlayer(1).getTotal() == 21){
+			playerOutcome1 = Constants.BLACKJACK;
+		}
+	}
+	
+	public void playerTwoState(){
+		if(state.getPlayer(2).getTotal() > highest && highest != 21 && state.getPlayer(2).getTotal() < 21){
+			highest = state.getPlayer(2).getTotal();
+			playerOutcome1 = Constants.LOST;
+			playerOutcome2 = Constants.WON;
+		}
+		else{
+			playerOutcome2 = Constants.LOST;
+		}
+		if(state.getPlayer(2).getTotal() == 21 && state.getPlayer(1).getTotal() != 21){
+			playerOutcome1 = Constants.LOST;
+			playerOutcome2 = Constants.BLACKJACK;
+			highest = 21;
+		}
+		else if(state.getPlayer(2).getTotal() == 21){
+			playerOutcome2 = Constants.BLACKJACK;
+			highest = 21;
+		}
+	}
+	
+	public void playerThreeState(){
+		if(state.getPlayer(3).getTotal() > highest && highest != 21 && state.getPlayer(3).getTotal() < 21){
+			highest = state.getPlayer(3).getTotal();
+			playerOutcome1 = Constants.LOST;
+			playerOutcome2 = Constants.LOST;
+			playerOutcome3 = Constants.WON;
+		}
+		else{
+			playerOutcome3 = Constants.LOST;
+		}
+		
+		if(state.getPlayer(3).getTotal() == 21 && state.getPlayer(2).getTotal() != 21){
+			
+			playerOutcome2 = Constants.LOST;
+			playerOutcome3 = Constants.BLACKJACK;
+			highest = 21;
+		}
+		else if(state.getPlayer(3).getTotal() == 21){
+			playerOutcome3 = Constants.BLACKJACK;
+			highest = 21;
+		}
+	}
+	
+	public void dealerRun(){
+		while(state.getDealer().getTotal() <= highest && state.getDealer().getTotal() < 21){
+			deal.add(state.getDeck().dealCard());
+			state.getDealer().receiveCard(deal.get(count));
+			addCard(0, deal.get(count));
+			count++;
+		}
+		
+		if(state.getDealer().getTotal() < 21 && state.getDealer().getTotal() > highest){
+			playerOutcome1 = Constants.LOST;
+			playerOutcome2 = Constants.LOST;
+			playerOutcome3 = Constants.LOST;
+			dealerOutcome = Constants.WON;
+		}
+		else if(state.getDealer().getTotal() == 21 && highest != 21){
+			playerOutcome1 = Constants.LOST;
+			playerOutcome2 = Constants.LOST;
+			playerOutcome3 = Constants.LOST;
+			dealerOutcome = Constants.BLACKJACK;
+		}
+		else if(state.getDealer().getTotal() == 21){
+			dealerOutcome = Constants.BLACKJACK;
+		}
+		else{
+			dealerOutcome = Constants.LOST;
+		}
+		
+		dealerTurn(playerOutcome1, playerOutcome2, playerOutcome3, dealerOutcome);
 	}
 }

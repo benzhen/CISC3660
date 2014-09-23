@@ -7,12 +7,13 @@ import javax.swing.JPanel;
 public class MessagePanel extends JPanel {
 	String [] message;
 	boolean sendMessage;
-	boolean showMenu;
+	boolean showMenu = true;
 	
 	public MessagePanel(){
 		message = new String[4];
 		message[1] = Constants.WAIT_MSG;
 		message[2] = Constants.WAIT_MSG;
+		
 		message[3] = "";
 	}
 	
@@ -39,20 +40,26 @@ public class MessagePanel extends JPanel {
 			g2d.drawString("Message to player 1: 'q'= Hit, 'w'= Stand", 10, 15);
 			g2d.drawString("Message to player 2: 'a'= Hit, 's'= Stand", 10, 90);
 			g2d.drawString("Message to player 3: 'z'= Hit, 'x'= Stand", 10, 160);
+			
 			g2d.drawString("", 10, 250);
+			
 			g2d.drawString(message[0], 10, 35);
 			g2d.drawString(message[1], 10, 110);
 			g2d.drawString(message[2], 10, 180);
+			
 			g2d.drawString(message[3], 10, 250);
+			sendMessage = false;
 		}
 		else if(showMenu){
-			g2d.drawString("Welcome to this extremely sophisticated version of Blackjack!", 55, 45);
+			g2d.drawString("Welcome to this extremely sophisticated version of Blackjack!", 80, 45);
 			g2d.drawString("Press any key to start a new game", 145, 95);
 			g2d.drawString("INSTRUCTIONS:", 25, 125);
-			g2d.drawString("Player 1: 'q' to request a card, 'w' to stand (Stop asking for maore cards)", 25, 145);
+			g2d.drawString("Player 1: 'q' to request a card, 'w' to stand (Stop asking for more cards)", 25, 145);
 			g2d.drawString("Player 2: 'a' to request a card, 's' to stand ", 25, 165);
 			g2d.drawString("Player 3: 'z' to request a card, 'x' to stand ", 25, 185);
-			showMenu = false;
+			
+			g2d.drawString("If total hand more than 21, automatically go to next player's turn", 77, 70);
+			//showMenu = false;
 		}
 	}
 }

@@ -7,4 +7,6 @@ public class Constants {
 	final static String LOST = "You Lost! :(";
 	final static String BLACKJACK = "Blackjack!";
 	
+	final static String BUST = "BUST, You Lose!";
+	
 }
