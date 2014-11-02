@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class IntroToLibGDX extends ApplicationAdapter{
 
@@ -13,10 +14,12 @@ public class IntroToLibGDX extends ApplicationAdapter{
 	private Sprite bug;
 	private Sprite chest;
 	private float rotDeg;
-	private float x=30, y =0;
-	private final float speed = 10.0f;
+	private Vector2 vec2;
 	private float deltaTime;
 	private boolean reachTop = false;
+	private int state = 1, counter = 0;
+	
+
 	
 	@Override
 	public void create() {
@@ -25,60 +28,63 @@ public class IntroToLibGDX extends ApplicationAdapter{
 		bug = new Sprite(new Texture("EnemyBug.png"));
 		bug.setSize(50, 85);
 		bug.setOrigin(bug.getWidth() / 2, bug.getHeight() / 2);
-		bug.setPosition(30, 0);
+		bug.setPosition(0, 0);
 		chest = new Sprite(new Texture("ChestClosed.png"));
 		chest.setSize(50, 85);
 		chest.setOrigin(chest.getWidth()/2, chest.getHeight()/2);
 		chest.setPosition(270, 240);
-		bug.rotate(20);
-		rotDeg = 180;
+		rotDeg = 3;
+		
+		vec2 = new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		vec2.nor();
+		vec2.scl(10);
 	}
 
 	@Override
 	public void render() {
 		// Game Loop
+		deltaTime = Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClearColor(0.7f, 0.7f, 0.2f, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.begin();
 		
-		deltaTime = Gdx.graphics.getDeltaTime();
+		bug.translate(vec2.x * deltaTime, vec2.y * deltaTime);
 		
-		if(!reachTop){
-			x += (speed * deltaTime) + 0.12f;
-			y += (speed * deltaTime);
-		}
-		
-		if(reachTop){
-			x -= (speed * deltaTime) + 0.12f;
-			y -= (speed * deltaTime);
-		}
-		
-		if(x >= 750 && y >= 420 || x <= 0 && y <= 0){
-			if(reachTop){
+		if(bug.getX() >= Gdx.graphics.getWidth()-50 && bug.getY() >= Gdx.graphics.getHeight()-50 && state == 1
+				|| bug.getX() <= 25 && bug.getY() <= 0 && state == 2){
+			vec2.scl(-1);
+			if(state == 1){
+				reachTop = true;
+			}
+			else if(state == 2){
 				reachTop = false;
-				bug.rotate(rotDeg);
+			}
+			state = 3;
+		}
+		/*
+		if(bug.getX() <= 25 && bug.getY() <= 0 && state == 2){
+			vec2.scl(-1);
+			state = 3;
+			reachTop = false;
+			
+		}
+		*/
+		if(state == 3){
+			bug.rotate(rotDeg);
+			if(counter < 60){
+				counter++;
 			}
 			else{
-				reachTop = true;
-				bug.rotate(rotDeg);
+				if(reachTop){
+					state = 2;
+					counter = 0;
+				}
+				else{
+					state = 1;
+					counter = 0;
+				}
 			}
 		}
-		
-		/*
-		if(x >= 750 && y >= 420){
-			bug.rotate(rotDeg);
-		}
-		
-		if(x <= 0 && y <= 0){
-			bug.rotate(rotDeg);
-		}
-		
-		
-		System.out.println("x = " + x);
-		System.out.println("y = " + y);
-		*/
-		
-		bug.setPosition(x, y);
 		
 		bug.draw(spriteBatch);
 		chest.draw(spriteBatch);
