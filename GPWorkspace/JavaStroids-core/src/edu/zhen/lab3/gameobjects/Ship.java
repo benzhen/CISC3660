@@ -25,6 +25,26 @@ public class Ship extends GameObject implements Updatable{
 	@Override
 	public void update(float deltaTime) {
 //		Student, your code goes here		
+		//Assignment 1
+		double cosTheta = (direction.dot(targetDirection))/targetDirection.len();
+		
+		if(cosTheta > 1){
+			cosTheta = 1;
+		}
+		
+		double deg = Math.acos(cosTheta); //gets converted to radians
+		
+		//create smooth rotation
+		// libGDX works in degrees need to convert to degree
+		deg = Math.toDegrees(deg) * deltaTime;
+		
+		if(direction.crs(targetDirection) > 0){
+			deg = -deg;
+		}
+		
+		sprite.rotate((float) deg);
+		direction.rotate(-(float) deg);
+		
 	}
 
 	public void moveForward(float deltaTime) {
