@@ -53,6 +53,10 @@ public class IntroToLibGDX extends ApplicationAdapter{
 		if(bug.getX() >= Gdx.graphics.getWidth()-50 && bug.getY() >= Gdx.graphics.getHeight()-50 && state == 1
 				|| bug.getX() <= 25 && bug.getY() <= 0 && state == 2){
 			vec2.scl(-1);
+			//planning to set to 0 to stop motion, 
+			//then scale again for movement after rotation is done
+			
+			//vec2.setZero();
 			if(state == 1){
 				reachTop = true;
 			}
@@ -78,10 +82,12 @@ public class IntroToLibGDX extends ApplicationAdapter{
 				if(reachTop){
 					state = 2;
 					counter = 0;
+					//vec2.scl(-100);
 				}
 				else{
 					state = 1;
 					counter = 0;
+					//vec2.scl(100);
 				}
 			}
 		}
