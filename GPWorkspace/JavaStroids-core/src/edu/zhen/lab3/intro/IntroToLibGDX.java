@@ -18,6 +18,7 @@ public class IntroToLibGDX extends ApplicationAdapter{
 	private float deltaTime;
 	private boolean reachTop = false;
 	private int state = 1, counter = 0;
+	private double angleDiff = 0;
 	
 
 	
@@ -48,7 +49,9 @@ public class IntroToLibGDX extends ApplicationAdapter{
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.begin();
 		
-		bug.translate(vec2.x * deltaTime, vec2.y * deltaTime);
+		if(state != 3){
+			bug.translate(vec2.x * deltaTime, vec2.y * deltaTime);
+		}
 		
 		if(bug.getX() >= Gdx.graphics.getWidth()-50 && bug.getY() >= Gdx.graphics.getHeight()-50 && state == 1
 				|| bug.getX() <= 25 && bug.getY() <= 0 && state == 2){
@@ -66,13 +69,6 @@ public class IntroToLibGDX extends ApplicationAdapter{
 			state = 3;
 		}
 		/*
-		if(bug.getX() <= 25 && bug.getY() <= 0 && state == 2){
-			vec2.scl(-1);
-			state = 3;
-			reachTop = false;
-			
-		}
-		*/
 		if(state == 3){
 			bug.rotate(rotDeg);
 			if(counter < 60){
@@ -91,7 +87,28 @@ public class IntroToLibGDX extends ApplicationAdapter{
 				}
 			}
 		}
+		*/
 		
+		if(state ==3){
+			//System.out.println("V angle= " + vec2.angle() + ", bug angle= " + bug.getRotation());
+			
+			angleDiff = Math.abs(vec2.angle() - bug.getRotation());
+			
+			//System.out.println("Angle diff= " + angleDiff + ", reachTop= " + reachTop);
+			
+			bug.rotate(rotDeg);
+			
+			if(5 >= angleDiff && reachTop || 355 <= angleDiff && !reachTop){
+				bug.setRotation(vec2.angle());
+				if(reachTop){
+					state = 2;
+				}
+				else{
+					state = 1;
+				}
+			}
+			
+		}
 		bug.draw(spriteBatch);
 		chest.draw(spriteBatch);
 		spriteBatch.end();
