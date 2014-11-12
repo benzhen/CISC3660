@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Ship extends GameObject implements Updatable{
 	private Vector2 direction;
 	private Vector2 targetDirection;
+	private Vector2 velocity;
+	private final float MIN_VELOCITY = 20;
 	
 	public Ship(Texture texture, int x, int y) {
 		sprite = new Sprite(texture);
@@ -14,6 +16,7 @@ public class Ship extends GameObject implements Updatable{
 		sprite.setPosition(x, y);
 		direction = new Vector2(0,-1);
 		targetDirection = new Vector2(0,-1);
+		velocity = new Vector2(0, MIN_VELOCITY);
 		setIsDrawable(true);
 	}
 	
@@ -45,11 +48,19 @@ public class Ship extends GameObject implements Updatable{
 		sprite.rotate((float) deg);
 		direction.rotate(-(float) deg);
 		
+		sprite.translate(velocity.x * deltaTime, velocity.y*deltaTime);
+		
+		if(velocity.len() > MIN_VELOCITY){
+			velocity = velocity.scl(1-deltaTime);
+		}
 	}
 
 	public void moveForward(float deltaTime) {
 //		Student, your code goes here		
+		velocity.x = velocity.x + direction.x*velocity.len()*deltaTime*2;
+		velocity.y = velocity.y - direction.y*velocity.len()*deltaTime*2;
 		
+		velocity.clamp(10, 80);
 	}
 
 }

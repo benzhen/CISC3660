@@ -21,6 +21,7 @@ public class Controller {
 	ArrayList<GameObject> drawableObjects; 
 	Ship ship;
 	private float screenHeight;
+
 	
 	public Controller(){
 		drawableObjects = new ArrayList<GameObject>(); 
