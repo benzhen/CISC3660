@@ -63,4 +63,11 @@ public class Ship extends GameObject implements Updatable{
 		velocity.clamp(10, 80);
 	}
 
+	public Vector2 getDirection(){
+		return direction;
+	}
+	
+	public Vector2 getPosition(){
+		return new Vector2(sprite.getX(), sprite.getY());
+	}
 }

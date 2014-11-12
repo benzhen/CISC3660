@@ -64,6 +64,18 @@ public class Controller {
 		}
 		// Update ship
 		ship.update(Gdx.graphics.getDeltaTime());
+		
+		for(int i=0; i<drawableObjects.size();i++){
+			GameObject g0bj = drawableObjects.get(i);
+			//update Asteroids
+			if(g0bj instanceof Asteroid){
+				((Asteroid) g0bj).update(Gdx.graphics.getDeltaTime());
+			}
+			//update Missiles
+			if(g0bj instanceof Missile){
+				((Missile) g0bj).update(Gdx.graphics.getDeltaTime());
+			}
+		}
 	}
 	
 	private void processKeyboardInput(){
@@ -71,6 +83,9 @@ public class Controller {
 		if (Gdx.input.isKeyPressed(Keys.UP)) 
 			ship.moveForward(Gdx.graphics.getDeltaTime());
 		// Student, your code goes here
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			initMissile();
+		}
 	}
 	
 	public ArrayList<GameObject> getDrawableObjects(){
@@ -83,4 +98,15 @@ public class Controller {
 					- (screenHeight - Gdx.input.getY()-ship.sprite.getY())));
 		}
 	}
+	
+	private void initMissile(){
+		int w = Constants.SHIP_WIDTH/3;
+		int h = Constants.SHIP_HEIGHT/3;
+		Pixmap pmap = new Pixmap(w, h, Format.RGB565);
+		pmap.setColor(1,1,1,1);
+		pmap.drawLine(w/2, 0, w/2, h);
+		drawableObjects.add(new Missile(new Texture(pmap), ship.getDirection(), ship.getPosition()));
+	}
+	
+	
 }
