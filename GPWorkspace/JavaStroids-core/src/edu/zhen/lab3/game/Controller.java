@@ -57,9 +57,16 @@ public class Controller {
 	public void update(){
 		processKeyboardInput();
 		processMouseInput();
-		System.out.println(drawableObjects.size());
+		//System.out.println(drawableObjects.size());
 		
-		
+		for(int i=0; i<drawableObjects.size();i++){
+			GameObject gObj = drawableObjects.get(i);
+			if(gObj instanceof Missile){
+				if(((Missile) gObj).getRemove() == true){
+					drawableObjects.remove(i);
+				}
+			}
+		}
 		
 		for(int i=0; i<drawableObjects.size(); i++){
 			GameObject gObj = drawableObjects.get(i);

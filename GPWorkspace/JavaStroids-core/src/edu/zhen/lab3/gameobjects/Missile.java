@@ -1,30 +1,20 @@
 package edu.zhen.lab3.gameobjects;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.zhen.lab3.game.Constants;
-import edu.zhen.lab3.gameobjects.Asteroid;
 import edu.zhen.lab3.gameobjects.GameObject;
 import edu.zhen.lab3.gameobjects.Missile;
-import edu.zhen.lab3.gameobjects.Ship;
 
 
 public class Missile extends GameObject implements Updatable {
 	private Vector2 dirAndVel;
 	private final float VELOCITY = 100;
 	
-	public boolean remove;
+	private boolean remove;
 	int screenWidth;
 	int screenHeight;
 	
