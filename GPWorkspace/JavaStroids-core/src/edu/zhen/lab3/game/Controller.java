@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import edu.zhen.lab3.gameobjects.Asteroid;
 import edu.zhen.lab3.gameobjects.GameObject;
+import edu.zhen.lab3.gameobjects.Missile;
 import edu.zhen.lab3.gameobjects.Ship;
 
 public class Controller {
@@ -56,26 +57,31 @@ public class Controller {
 	public void update(){
 		processKeyboardInput();
 		processMouseInput();
+		System.out.println(drawableObjects.size());
+		
+		
+		
+		for(int i=0; i<drawableObjects.size(); i++){
+			GameObject gObj = drawableObjects.get(i);
+			//update Asteroid
+			if(gObj instanceof Asteroid){
+				((Asteroid) gObj).update(Gdx.graphics.getDeltaTime());
+			}
+			if(gObj instanceof Missile){
+				((Missile) gObj).update(Gdx.graphics.getDeltaTime());
+			}
+		}
+		/*
 		// Update Asteroids
 		for(GameObject gObg : drawableObjects){
 			if(gObg instanceof Asteroid){
 				((Asteroid) gObg).update(Gdx.graphics.getDeltaTime()); 
 			}
 		}
+		*/
 		// Update ship
 		ship.update(Gdx.graphics.getDeltaTime());
 		
-		for(int i=0; i<drawableObjects.size();i++){
-			GameObject g0bj = drawableObjects.get(i);
-			//update Asteroids
-			if(g0bj instanceof Asteroid){
-				((Asteroid) g0bj).update(Gdx.graphics.getDeltaTime());
-			}
-			//update Missiles
-			if(g0bj instanceof Missile){
-				((Missile) g0bj).update(Gdx.graphics.getDeltaTime());
-			}
-		}
 	}
 	
 	private void processKeyboardInput(){
