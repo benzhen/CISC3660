@@ -30,6 +30,10 @@ public class Controller {
 	
 	private boolean shipCrashed;
 	private Sound explosionSound;
+	private Sound destroySound;
+	
+	private float explosionX;
+	private float explosionY;
 
 	
 	public Controller(){
@@ -68,31 +72,33 @@ public class Controller {
 		processMouseInput();
 		//System.out.println(drawableObjects.size());
 		
-		for(int i=0; i<drawableObjects.size();i++){
-			GameObject gObj = drawableObjects.get(i);
-			if(gObj instanceof Missile){
-				if(((Missile) gObj).getRemove() == true){
-					drawableObjects.remove(i);
-				}
-			}
-		}
-		
 		for(int i=0; i<drawableObjects.size(); i++){
 			GameObject gObj = drawableObjects.get(i);
 			//update Asteroid
 			if(gObj instanceof Asteroid){
 				((Asteroid) gObj).update(Gdx.graphics.getDeltaTime());
-			}
-			if(gObj instanceof Missile){
-				((Missile) gObj).update(Gdx.graphics.getDeltaTime());
-			}
-			if(ship.sprite.getBoundingRectangle()
+				
+				
+				
+				if(ship.sprite.getBoundingRectangle()
 					.overlaps(((Asteroid) gObj)
 							.sprite.getBoundingRectangle()) && !shipCrashed){
-				shipCrashed = true;
-				explosionSound.play();
-				thrustersSound.stop();
+					shipCrashed = true;
+					explosionSound.play();
+					thrustersSound.stop();
+					explosionX = ship.sprite.getX();
+					explosionY = ship.sprite.getY();
+				}
 			}
+			if(gObj instanceof Missile){
+				if(((Missile) gObj).getRemove() == true){
+					drawableObjects.remove(i);
+				}
+				((Missile) gObj).update(Gdx.graphics.getDeltaTime());
+			}
+			
+			
+			
 		}
 		
 		// Update ship
@@ -150,6 +156,8 @@ public class Controller {
 		laserSound = Gdx.audio.newSound(
 				Gdx.files.internal("42106__marcuslee__laser-wrath-4.wav"));
 		explosionSound = Gdx.audio.newSound(
+				Gdx.files.internal("235968__tommccann__explosion-01.wav"));
+		destroySound = Gdx.audio.newSound(
 				Gdx.files.internal("110113__ryansnook__medium-explosion.wav"));
 		backgroundNoise.setLooping(true);
 		backgroundNoise.play();
@@ -171,9 +179,20 @@ public class Controller {
 		if(explosionSound != null){
 			explosionSound.dispose();
 		}
+		if(destroySound != null){
+			destroySound.dispose();
+		}
 	}
 	
 	public boolean isShipCrashed(){
 		return shipCrashed;
+	}
+	
+	public float getExplosionX(){
+		return explosionX;
+	}
+	
+	public float getExplosionY(){
+		return explosionY;
 	}
 }
