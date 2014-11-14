@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -22,12 +24,19 @@ public class Controller {
 	ArrayList<GameObject> drawableObjects; 
 	Ship ship;
 	private float screenHeight;
+	private Sound thrustersSound;
+	private Music backgroundNoise;
+	private Sound laserSound;
+	
+	private boolean shipCrashed;
+	private Sound explosionSound;
 
 	
 	public Controller(){
 		drawableObjects = new ArrayList<GameObject>(); 
 		initShip();
 		initAsteroids(10);
+		initSound();
 		screenHeight = Gdx.graphics.getHeight();
 	}
 	
@@ -77,27 +86,39 @@ public class Controller {
 			if(gObj instanceof Missile){
 				((Missile) gObj).update(Gdx.graphics.getDeltaTime());
 			}
-		}
-		/*
-		// Update Asteroids
-		for(GameObject gObg : drawableObjects){
-			if(gObg instanceof Asteroid){
-				((Asteroid) gObg).update(Gdx.graphics.getDeltaTime()); 
+			if(ship.sprite.getBoundingRectangle()
+					.overlaps(((Asteroid) gObj)
+							.sprite.getBoundingRectangle()) && !shipCrashed){
+				shipCrashed = true;
+				explosionSound.play();
+				thrustersSound.stop();
 			}
 		}
-		*/
+		
 		// Update ship
-		ship.update(Gdx.graphics.getDeltaTime());
+		if(!shipCrashed){
+			ship.update(Gdx.graphics.getDeltaTime());
+		}
+		else{
+			drawableObjects.remove(ship);
+		}
 		
 	}
 	
 	private void processKeyboardInput(){
 		if (Gdx.app.getType() != ApplicationType.Desktop) return; // Just in case :)
-		if (Gdx.input.isKeyPressed(Keys.UP)) 
+		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			ship.moveForward(Gdx.graphics.getDeltaTime());
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.UP)){
+			thrustersSound.play(0.5f);
+		}
 		// Student, your code goes here
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
 			initMissile();
+		}
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			laserSound.play(0.5f);
 		}
 	}
 	
@@ -121,5 +142,38 @@ public class Controller {
 		drawableObjects.add(new Missile(new Texture(pmap), ship.getDirection(), ship.getPosition()));
 	}
 	
+	private void initSound(){
+		thrustersSound = Gdx.audio.newSound(
+				Gdx.files.internal("125810__robinhood76__02578-rocket-start.wav"));
+		backgroundNoise = Gdx.audio.newMusic(
+				Gdx.files.internal("176685__alaupas__space1.mp3"));
+		laserSound = Gdx.audio.newSound(
+				Gdx.files.internal("42106__marcuslee__laser-wrath-4.wav"));
+		explosionSound = Gdx.audio.newSound(
+				Gdx.files.internal("110113__ryansnook__medium-explosion.wav"));
+		backgroundNoise.setLooping(true);
+		backgroundNoise.play();
+		backgroundNoise.setVolume(0.5f);
+		
+	}
 	
+	
+	public void dispose(){
+		if(thrustersSound != null){
+			thrustersSound.dispose();
+		}
+		if(backgroundNoise != null){
+			backgroundNoise.dispose();
+		}
+		if(laserSound != null){
+			laserSound.dispose();
+		}
+		if(explosionSound != null){
+			explosionSound.dispose();
+		}
+	}
+	
+	public boolean isShipCrashed(){
+		return shipCrashed;
+	}
 }

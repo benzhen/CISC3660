@@ -23,6 +23,7 @@ public class Game extends ApplicationAdapter {
 	
 	@Override
 	public void dispose(){
+		control.dispose();
 	}
 	
 }
